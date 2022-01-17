@@ -65,14 +65,12 @@ int	print_ptr(void *ptr)
 {
 	size_t	nbr;
 	int		count;
-	char	*set;
 
 	if (!ptr)
 		return (print_str("0x0"));
 	nbr = (size_t)ptr;
 	count = 0;
 	count += print_str("0x");
-	set = "0123456789abcdef";
 	count += print_hexa(nbr, 'x');
 	return (count);
 }
