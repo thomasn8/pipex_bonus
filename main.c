@@ -12,17 +12,29 @@
 
 #include "pipex.h"
 
+// read input from terminal STDIN 
+// until a line containing ONLY the delimiter is seen 
+// (source: BASH man)
 static void	read_terminal_lines(char *limiter, int *pipefd)
 {
 	char	*line;
+	char	*limiter_nl;
+	int		len;
 
+	limiter_nl = ft_strjoin(limiter, "\n");
+	len = ft_strlen(limiter) + 1;
 	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strncmp(line, limiter_nl, len) == 0
+			|| ft_strncmp(line, limiter, len) == 0)
+		{
+			free(limiter_nl);
+			free(line);
 			exit(EXIT_SUCCESS);
+		}
 		write(pipefd[1], line, ft_strlen(line));
 		free(line);
 	}
